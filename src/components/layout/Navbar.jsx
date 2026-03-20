@@ -1,0 +1,134 @@
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Search from "../movie/Search";
+import NavLogo from "./NavLogo";
+import GenreDropdown from "./GenreDropdown";
+
+/**
+ * Navbar Component
+ * Navigation header that Orchestrates the sub-components: NavLogo, GenreDropdown, and Search.
+ * 
+ * @param {string} searchTerm - Current search query
+ * @param {Function} setSearchTerm - State setter for search query
+ * @param {Function} executeSearch - Function to trigger movie search
+ */
+const Navbar = ({
+  searchTerm,
+  setSearchTerm,
+  executeSearch,
+}) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
+  // Handle scroll effect for sticky header styling
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  /**
+   * Scrolls to a specific section on the home page.
+   * If not on home page, navigates home first then scrolls.
+   */
+  const scrollToSection = (id) => {
+    if (isHomePage) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) element.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  };
+
+  /**
+   * Navigates to the genre results page.
+   */
+  const onGenreClick = (id) => {
+    setIsDropdownOpen(false);
+    navigate(`/genre/${id}`);
+  };
+
+  /**
+   * Executes search and collapses the search bar.
+   */
+  const handleSearchTrigger = (query) => {
+    executeSearch(query);
+    setIsSearchOpen(false);
+  };
+
+  return (
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 px-6 md:px-12 lg:px-24 flex items-center justify-between ${
+          isScrolled
+            ? "bg-primary/50 backdrop-blur-xl py-3 shadow-2xl"
+            : "bg-transparent"
+        }`}
+      >
+        <NavLogo />
+
+        {/* Navigation Actions */}
+        <div className="flex items-center gap-6 md:gap-10">
+          <GenreDropdown 
+            isOpen={isDropdownOpen} 
+            setIsOpen={setIsDropdownOpen} 
+            onGenreClick={onGenreClick} 
+          />
+
+          <button
+            onClick={() => scrollToSection("trending-section")}
+            className="text-gray-300 cursor-pointer hover:text-white font-medium text-sm md:text-base transition-colors relative after:content-[''] after:absolute after:bottom--1 after:left-0 after:w-0 after:h-0.5 after:bg-purple-400 after:transition-all hover:after:w-full"
+          >
+            Trending
+          </button>
+          
+          <button
+            onClick={() => scrollToSection("all-movies-section")}
+            className="text-gray-300 cursor-pointer hover:text-white font-medium text-sm md:text-base transition-colors relative after:content-[''] after:absolute after:bottom--1 after:left-0 after:w-0 after:h-0.5 after:bg-purple-400 after:transition-all hover:after:w-full"
+          >
+            Browse
+          </button>
+
+          {/* Search Toggle Button */}
+          <button
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+            className="hover:scale-110 cursor-pointer transition-transform duration-200"
+          >
+            <img src="/search.svg" alt="Search" className="w-6 h-6" />
+          </button>
+        </div>
+      </nav>
+
+      {/* Expandable Search Input Container */}
+      <div
+        className={`fixed top-[72px] inset-x-0 z-40 transition-all duration-500 overflow-hidden ${
+          isSearchOpen ? "max-h-32 opacity-100" : "max-h-0 opacity-0 invisible"
+        }`}
+      >
+          <div className="relative right-0 max-w-7xl mx-auto">
+            <Search
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              executeSearch={handleSearchTrigger}
+            />
+          </div>
+      </div>
+    </>
+  );
+};
+
+export default Navbar;
