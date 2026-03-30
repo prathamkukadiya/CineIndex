@@ -10,6 +10,7 @@ import MovieDetails from './pages/MovieDetails';
 
 // Shared Components
 import Navbar from './components/layout/Navbar';
+import ScrollToTop from './components/layout/ScrollToTop';
 
 /**
  * Main Application Component
@@ -54,6 +55,9 @@ const App = () => {
         setSearchTerm={setSearchTerm}
         executeSearch={executeSearch}
       />
+
+      {/* Automatically scrolls to top on route change */}
+      <ScrollToTop />
 
       <Routes>
         {/* Landing Page: Shows trending movies and all movies grid */}

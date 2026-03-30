@@ -23,13 +23,12 @@ const Search = ({ searchTerm, setSearchTerm, executeSearch }) => {
   };
 
   return (
-    <div className="w-full bg-primary/50 backdrop-blur-2xl  px-4 py-3 rounded-lg mt-2 max-w-3xl mx-auto">
+    <div className="bg-primary/50 backdrop-blur-2xl px-3 py-2 sm:px-4 sm:py-3 rounded-lg max-w-3xl mx-4 sm:mx-auto">
       <div className="relative flex items-center">
-        <img className="absolute left-2 h-5 w-5" src="/search.svg" alt="Search" />
         <input
-          className="w-full bg-transparent py-2 sm:pr-10 pl-10 text-base text-gray-200 placeholder-light-200 outline-hidden"
+          className="w-full bg-transparent py-1 sm:py-2 pl-3 sm:pl-4 pr-9 sm:pr-10 text-sm sm:text-base text-gray-200 placeholder-light-200 outline-hidden"
           type="text"
-          placeholder="Search Through Thousands of Movies (Press Enter)"
+          placeholder="Search movies..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={(e) => {
@@ -38,6 +37,13 @@ const Search = ({ searchTerm, setSearchTerm, executeSearch }) => {
             }
           }}
         />
+        <button
+          onClick={handleSearch}
+          className="absolute right-2 cursor-pointer p-1 hover:scale-110 transition-transform duration-200"
+          aria-label="Search"
+        >
+          <img className="h-5 w-5" src="/search.svg" alt="Search" />
+        </button>
       </div>
     </div>
   );

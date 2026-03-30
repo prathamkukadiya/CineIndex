@@ -71,9 +71,9 @@ const Navbar = ({
   };
 
   return (
-    <>
+    <div className="fixed top-0 left-0 right-0 z-50">
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-3 sm:py-4 px-4 sm:px-6 md:px-12 lg:px-24 flex items-center justify-between ${
+        className={`transition-all duration-500 py-3 sm:py-4 px-4 sm:px-6 md:px-12 lg:px-24 flex items-center justify-between ${
           isScrolled
             ? "bg-primary/50 backdrop-blur-xl py-3 shadow-2xl"
             : "bg-transparent"
@@ -115,11 +115,11 @@ const Navbar = ({
 
       {/* Expandable Search Input Container */}
       <div
-        className={`fixed top-[72px] inset-x-0 z-40 transition-all duration-500 overflow-hidden ${
+        className={`transition-all duration-500 overflow-hidden ${
           isSearchOpen ? "max-h-32 opacity-100" : "max-h-0 opacity-0 invisible"
         }`}
       >
-          <div className="relative right-0 max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto">
             <Search
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
@@ -127,7 +127,7 @@ const Navbar = ({
             />
           </div>
       </div>
-    </>
+    </div>
   );
 };
 
