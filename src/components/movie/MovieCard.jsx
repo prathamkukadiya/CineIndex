@@ -12,7 +12,7 @@ import Poster from './Poster'
 const MovieCard = ({ movie: { id, title, vote_average, poster_path, original_language, release_date } }) => {
   return (
     <Link to={`/movie/${id}`}>
-      <div className='bg-dark-100 p-5 rounded-2xl shadow-inner shadow-light-100/10 cursor-pointer hover:scale-105 transition-transform duration-300 h-full flex flex-col'>
+      <div className='bg-dark-100 p-2 md:p-5 rounded-2xl shadow-inner shadow-light-100/10 cursor-pointer hover:scale-105 transition-transform duration-300 h-full flex flex-col'>
         <Poster 
           poster_path={poster_path} 
           title={title} 
@@ -20,7 +20,7 @@ const MovieCard = ({ movie: { id, title, vote_average, poster_path, original_lan
         />
 
         {/* Movie Info Section */}
-        <div className="mt-2 md:mt-4 flex flex-col flex-1">
+        <div className="mt-0 md:mt-4 flex flex-col flex-1">
           <h3 className='text-white md:font-bold text-sm md:text-base line-clamp-1'>{title}</h3>
 
           <div className='mt-2 flex flex-row items-center flex-wrap gap-2'>
