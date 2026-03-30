@@ -89,7 +89,7 @@ export const updateMovieViewCount = async (movie) => {
  */
 export const getTrendingMovies = (callback) => {
     const trendingMoviesRef = collection(db, "trendingMovies");
-    const q = query(trendingMoviesRef, orderBy("count", "desc"), limit(10));
+    const q = query(trendingMoviesRef, orderBy("count", "desc"), limit(5));
     
     return onSnapshot(q, (querySnapshot) => {
         const trendingMovies = [];
