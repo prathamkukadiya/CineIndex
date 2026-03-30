@@ -31,12 +31,7 @@ const Home = ({
   totalPages, 
   handlePageChange 
 }) => {
-  /**
-   * Initial effect to trigger data fetching when the home page mounts.
-   */
-  React.useEffect(() => {
-    executeSearch(''); // Fetch discovery movies with empty search
-  }, [executeSearch]);
+  // No need for initial fetch here; useMovies hook now handles it based on URL parameters.
 
   return (
     <div className='relative'>

@@ -35,14 +35,7 @@ const GenreResults = ({
     ? currentGenres.map(g => g.name).join(' & ') 
     : 'Genre';
 
-  /**
-   * Effect hook to trigger the genre-specific API call whenever the URL ID changes.
-   */
-  useEffect(() => {
-    if (id) {
-      handleGenreSelect(id);
-    }
-  }, [id, handleGenreSelect]);
+  // No need for separate fetch here; useMovies hook now handles it based on URL parameters.
 
   return (
     <div className='relative'>

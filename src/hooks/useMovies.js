@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getTrendingMovies } from '../firebase';
 import { API_BASE_URL, API_OPTIONS } from '../constants';
@@ -11,17 +11,23 @@ import { API_BASE_URL, API_OPTIONS } from '../constants';
  * @returns {Object} Movie state and handler functions
  */
 export const useMovies = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // DERIVED STATE: Always get page and search from URL search params
+  const page = useMemo(() => Number(searchParams.get('page')) || 1, [searchParams]);
+  const searchTermFromUrl = useMemo(() => searchParams.get('query') || '', [searchParams]);
+
+  // LOCAL STATE: Used for UI-only things like errors and movie lists
+  const [searchTerm, setSearchTerm] = useState(searchTermFromUrl);
   const [errorMessage, setErrorMessage] = useState('');
   const [movieList, setMovieList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isTrendingLoading, setIsTrendingLoading] = useState(false);
   const [trendingMovies, setTrendingMovies] = useState([]);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState(null);
-
-  const location = useLocation();
 
   /**
    * Fetches movies from TMDB API based on query, page, and genre.
@@ -45,12 +51,13 @@ export const useMovies = () => {
       const response = await axios.get(endpoint, API_OPTIONS);
       const data = response.data;
 
-      if (!data.results) {
-        setErrorMessage(data.Error || 'Failed to fetch movies');
+      if (!data.results || data.results.length === 0) {
+        setErrorMessage(query ? `No movies found for "${query}"` : 'No movies found.');
         setMovieList([]);
         setTotalPages(1);
       } else {
         setMovieList(data.results || []);
+        // TMDB caps at 500 pages for discover/search
         setTotalPages(data.total_pages > 500 ? 500 : data.total_pages || 1);
       }
     } catch (error) {
@@ -59,42 +66,59 @@ export const useMovies = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []); // No external dependencies needed inside fetchMovies logic except constants
+  }, []);
 
   /**
-   * Handles page navigation and triggers a re-fetch.
+   * EFFECT: Synchronize UI state with URL parameters
+   */
+  useEffect(() => {
+    setSearchTerm(searchTermFromUrl);
+  }, [searchTermFromUrl]);
+
+  /**
+   * EFFECT: Trigger data fetching whenever URL parameters OR location changes
+   */
+  useEffect(() => {
+    // Determine context (search, genre, or home)
+    if (location.pathname === '/search') {
+      fetchMovies(searchTermFromUrl, page);
+    } else if (location.pathname.startsWith('/genre/')) {
+      const genreId = location.pathname.split('/').pop();
+      fetchMovies('', page, genreId);
+    } else {
+      fetchMovies('', page);
+    }
+  }, [location.pathname, page, searchTermFromUrl, fetchMovies]);
+
+  /**
+   * Handles page navigation by updating search parameters.
    */
   const handlePageChange = useCallback((newPage) => {
-    setPage(newPage);
-    if (location.pathname === '/search') {
-      fetchMovies(searchTerm, newPage);
-    } else if (location.pathname.startsWith('/genre/')) {
-      fetchMovies('', newPage, selectedGenre);
-    } else {
-      fetchMovies('', newPage);
-    }
+    setSearchParams((prev) => {
+      prev.set('page', newPage.toString());
+      return prev;
+    }, { replace: false }); // Ensure back button works
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [location.pathname, searchTerm, selectedGenre, fetchMovies]);
+  }, [setSearchParams]);
 
   /**
-   * Initiates a movie search.
+   * Initiates a movie search by updating search parameters.
    */
   const handleSearch = useCallback((query) => {
-    setSearchTerm(query);
-    setSelectedGenre(null);
-    setPage(1);
-    fetchMovies(query, 1);
-  }, [fetchMovies]);
+    if (location.pathname !== '/search') {
+      navigate(`/search?query=${encodeURIComponent(query)}&page=1`);
+    } else {
+      setSearchParams({ query, page: '1' });
+    }
+  }, [location.pathname, navigate, setSearchParams]);
 
   /**
    * Filters movies by genre.
    */
   const handleGenreSelect = useCallback((genreId) => {
     setSelectedGenre(genreId);
-    setSearchTerm('');
-    setPage(1);
-    fetchMovies('', 1, genreId);
-  }, [fetchMovies]);
+    setSearchParams({ page: '1' });
+  }, [setSearchParams]);
 
   // Effect to load trending movies from Firebase on mount
   useEffect(() => {
