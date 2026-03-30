@@ -14,7 +14,7 @@ const Cast = ({ cast }) => {
   if (!cast || cast.length === 0) return null;
 
   return (
-    <div className="space-y-4 w-[60vw]">
+    <div className="space-y-4 w-full md:w-[60vw]">
       <div className='flex items-center justify-between'>
         <h3 className="font-bold text-white uppercase text-xs md:text-sm tracking-[0.2em] opacity-80">
           Cast

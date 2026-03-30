@@ -20,25 +20,25 @@ const MovieCard = ({ movie: { id, title, vote_average, poster_path, original_lan
         />
 
         {/* Movie Info Section */}
-        <div className="mt-4 flex flex-col flex-1">
-          <h3 className='text-white font-bold text-base line-clamp-1'>{title}</h3>
+        <div className="mt-2 md:mt-4 flex flex-col flex-1">
+          <h3 className='text-white md:font-bold text-sm md:text-base line-clamp-1'>{title}</h3>
 
           <div className='mt-2 flex flex-row items-center flex-wrap gap-2'>
             {/* Rating */}
-            <div className='flex flex-row items-center gap-1'>
+            {/* <div className='flex flex-row items-center gap-1'>
               <img className='size-4 object-contain' src="/star.svg" alt="Star Icon" />
               <p className='font-bold text-base text-white'>{vote_average ? vote_average.toFixed(1) : 'N/A'}</p>
             </div>
 
-            <span className='text-sm text-gray-100'>●</span>
+            <span className='text-sm text-gray-100'>●</span> */}
             
             {/* Language */}
-            <p className='capitalize text-gray-100 font-medium text-base'>{original_language}</p>
+            <p className='capitalize text-gray-100 text-xs sm:text-base font-medium'>{original_language}</p>
             
             <span className='text-sm text-gray-100'>●</span>
             
             {/* Release Year */}
-            <p className='text-gray-100 font-medium text-base'>{getYear(release_date)}</p>
+            <p className='text-gray-100 text-xs sm:text-base font-medium'>{getYear(release_date)}</p>
           </div>
         </div>
       </div>

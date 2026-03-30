@@ -28,15 +28,19 @@ const GenreResults = ({
 }) => {
   const { id } = useParams();
 
-  // Find the current genre name from our centralized list
-  const currentGenre = GENRES.find(g => g.id === parseInt(id));
+  // Handle multiple genres (comma-separated IDs)
+  const genreIds = id ? id.split(',').map(Number) : [];
+  const currentGenres = GENRES.filter(g => genreIds.includes(g.id));
+  const genreNames = currentGenres.length > 0 
+    ? currentGenres.map(g => g.name).join(' & ') 
+    : 'Genre';
 
   /**
    * Effect hook to trigger the genre-specific API call whenever the URL ID changes.
    */
   useEffect(() => {
     if (id) {
-      handleGenreSelect(parseInt(id));
+      handleGenreSelect(id);
     }
   }, [id, handleGenreSelect]);
 
@@ -48,7 +52,7 @@ const GenreResults = ({
       <Container className="py-24 xs:py-32">
         <div className="mt-10">
           <h2 className='text-3xl font-bold text-white sm:text-4xl mb-12'>
-            <span className="text-purple-400">{currentGenre ? currentGenre.name : 'Genre'}</span> Movies
+            <span className="text-purple-400">{genreNames}</span> Movies
           </h2>
           
           <AllMovies 

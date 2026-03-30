@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Search from "../movie/Search";
 import NavLogo from "./NavLogo";
-import GenreDropdown from "./GenreDropdown";
+import FilterDropdown from "./FilterDropdown";
 
 /**
  * Navbar Component
- * Navigation header that Orchestrates the sub-components: NavLogo, GenreDropdown, and Search.
+ * Navigation header that Orchestrates the sub-components: NavLogo, FilterDropdown, and Search.
  * 
  * @param {string} searchTerm - Current search query
  * @param {Function} setSearchTerm - State setter for search query
@@ -73,7 +73,7 @@ const Navbar = ({
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 px-6 md:px-12 lg:px-24 flex items-center justify-between ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-3 sm:py-4 px-4 sm:px-6 md:px-12 lg:px-24 flex items-center justify-between ${
           isScrolled
             ? "bg-primary/50 backdrop-blur-xl py-3 shadow-2xl"
             : "bg-transparent"
@@ -82,23 +82,23 @@ const Navbar = ({
         <NavLogo />
 
         {/* Navigation Actions */}
-        <div className="flex items-center gap-6 md:gap-10">
-          <GenreDropdown 
+        <div className="flex items-center gap-4 sm:gap-6 md:gap-10">
+          <FilterDropdown 
             isOpen={isDropdownOpen} 
             setIsOpen={setIsDropdownOpen} 
-            onGenreClick={onGenreClick} 
+            onFilterApply={onGenreClick} 
           />
 
           <button
             onClick={() => scrollToSection("trending-section")}
-            className="text-gray-300 cursor-pointer hover:text-white font-medium text-sm md:text-base transition-colors relative after:content-[''] after:absolute after:bottom--1 after:left-0 after:w-0 after:h-0.5 after:bg-purple-400 after:transition-all hover:after:w-full"
+            className="text-gray-300 cursor-pointer hover:text-white font-medium text-xs sm:text-sm md:text-base transition-colors relative after:content-[''] after:absolute after:bottom--1 after:left-0 after:w-0 after:h-0.5 after:bg-purple-400 after:transition-all hover:after:w-full"
           >
             Trending
           </button>
           
           <button
             onClick={() => scrollToSection("all-movies-section")}
-            className="text-gray-300 cursor-pointer hover:text-white font-medium text-sm md:text-base transition-colors relative after:content-[''] after:absolute after:bottom--1 after:left-0 after:w-0 after:h-0.5 after:bg-purple-400 after:transition-all hover:after:w-full"
+            className="text-gray-300 cursor-pointer hover:text-white font-medium text-xs sm:text-sm md:text-base transition-colors relative after:content-[''] after:absolute after:bottom--1 after:left-0 after:w-0 after:h-0.5 after:bg-purple-400 after:transition-all hover:after:w-full"
           >
             Browse
           </button>
@@ -108,7 +108,7 @@ const Navbar = ({
             onClick={() => setIsSearchOpen(!isSearchOpen)}
             className="hover:scale-110 cursor-pointer transition-transform duration-200"
           >
-            <img src="/search.svg" alt="Search" className="w-6 h-6" />
+            <img src="/search.svg" alt="Search" className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
       </nav>

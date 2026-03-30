@@ -15,7 +15,7 @@ const NavLogo = () => {
       <img
         src="/CineIndexLogo.png"
         alt="Cine-Index Logo"
-        className="h-10 md:h-12 w-auto group-hover:scale-105 transition-transform duration-300"
+        className="h-10 md:h-12 w-auto hover:scale-105 transition-transform duration-300"
       />
       <span className="text-white font-black text-xl tracking-tighter sm:text-2xl hidden sm:block">
         CINE<span className="text-purple-400">INDEX</span>
