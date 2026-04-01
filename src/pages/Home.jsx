@@ -46,6 +46,7 @@ const Home = ({
         
         {/* Main movie browse section */}
         <AllMovies 
+          title="All Movies"
           movieList={movieList} 
           isLoading={isLoading} 
           errorMessage={errorMessage} 

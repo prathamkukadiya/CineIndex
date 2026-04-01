@@ -10,16 +10,18 @@ import Spinner from '../ui/Spinner'
  * @param {Array} movieList - Array of movie data from TMDB
  * @param {boolean} isLoading - Loading state for movie fetching
  * @param {string} errorMessage - Error message to display if fetch fails
+ * @param {string} [title] - Optional title for the section (e.g., "All Movies")
  */
-const AllMovies = ({ movieList, isLoading, errorMessage }) => {
+const AllMovies = ({ movieList, isLoading, errorMessage, title }) => {
 
   return (
     <section id="all-movies-section" className='space-y-9'>
-        <h2 
-        className='text-2xl font-bold text-white sm:text-3xl'
-        >
-            All Movies
-        </h2>
+        {/* Only render the title if it's explicitly provided */}
+        {title && (
+          <h2 className='text-2xl font-bold text-white sm:text-3xl'>
+              {title}
+          </h2>
+        )}
               
         {/* Conditional rendering based on loading/error/success states */}
         {isLoading ? (

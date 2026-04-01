@@ -18,7 +18,6 @@ const Search = ({ searchTerm, setSearchTerm, executeSearch }) => {
   const handleSearch = () => {
     if (searchTerm.trim() !== "") {
       executeSearch(searchTerm);
-      navigate("/search");
     }
   };
 

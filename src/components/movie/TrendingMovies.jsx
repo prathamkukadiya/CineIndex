@@ -31,10 +31,11 @@ const TrendingMovies = ({ trendingMovies, isLoading }) => {
                   key={movie.id}
                 >
                   <Link to={`/movie/${movie.movie_id}`} className="flex flex-row items-center group">
-                    {/* Visual ranking number */}
+                    {/* Visual ranking number (e.g., 1, 2, 3...) which scales on parent hover */}
                     <p className='fancy-text mt-[22px] text-nowrap group-hover:scale-110 transition-transform'>
                       {index + 1}
                     </p>
+                    {/* Movie poster image with subtle scale and overlay effect on hover */}
                     <img
                       className='w-[127px] h-[163px] rounded-lg object-cover -ml-3.5 group-hover:scale-105 transition-transform duration-300'
                       src={movie.poster}

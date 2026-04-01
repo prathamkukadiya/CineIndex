@@ -25,12 +25,12 @@ const MovieCard = ({ movie: { id, title, vote_average, poster_path, original_lan
 
           <div className='mt-2 flex flex-row items-center flex-wrap gap-2'>
             {/* Rating */}
-            {/* <div className='flex flex-row items-center gap-1'>
-              <img className='size-4 object-contain' src="/star.svg" alt="Star Icon" />
-              <p className='font-bold text-base text-white'>{vote_average ? vote_average.toFixed(1) : 'N/A'}</p>
+            <div className='flex flex-row items-center gap-1'>
+              <img className='size-3 sm:size-4 object-contain opacity-80' src="/star.svg" alt="Star Icon" />
+              <p className='font-bold text-xs sm:text-base text-white'>{vote_average ? vote_average.toFixed(1) : 'N/A'}</p>
             </div>
 
-            <span className='text-sm text-gray-100'>●</span> */}
+            <span className='text-xs sm:text-sm text-gray-100 opacity-50'>●</span>
             
             {/* Language */}
             <p className='capitalize text-gray-100 text-xs sm:text-base font-medium'>{original_language}</p>
