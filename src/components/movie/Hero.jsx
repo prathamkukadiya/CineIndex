@@ -13,7 +13,7 @@ const Hero = () => {
         src="./hero.png"
         alt="Hero Banner"
       />
-      <h1 className='mx-auto max-w-4xl text-center text-5xl font-bold leading-tight tracking-[-1%] text-white sm:text-[64px] sm:leading-[76px]'>
+      <h1 className='mx-auto max-w-4xl text-center text-4xl font-bold leading-tight tracking-[-1%] text-white sm:text-5xl sm:leading-[64px]'>
         Find
         <span className='bg-linear-to-r from-[#D6C7FF] to-[#AB8BFF] bg-clip-text text-transparent'> Movies </span>
           You'll Enjoy Without Hassle
